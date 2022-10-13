@@ -2,6 +2,8 @@
 
 Automated documentation of your Meltano project.
 
+> **Note**: This extention is a work in progress. We welcome you to try it out, and to submit issues or PR's with suggestions and improvements.
+
 ## How `sphinx-meltano` works
 
 1. At the `builder-inited` stage of Sphinx execution, `sphinx-meltano` is called.
