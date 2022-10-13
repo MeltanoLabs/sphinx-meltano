@@ -1,0 +1,80 @@
+{% macro render_capability_card_carousel(capabilities) %}
+.. card-carousel:: 1
+
+{% for capability in capabilities %}
+{% if capability == 'about' %}
+   .. card:: ``about``
+
+      Declares that the plugin supports a ``--about`` CLI argument and a paired ``--format=json`` to optionally print the plugin's metadata in a machine readable format. This capability can be used by users to better understand the capabilities and settings expected by the plugin. It may also be used by Meltano and MeltanoHub codebase to auto-detect behaviors and capabilities.
+
+{% elif capability == 'catalog' %}
+   .. card:: ``catalog``
+
+      Declares that the plugin supports stream and property selection using the ``--catalog`` CLI argument, which is a newer version of the ``--properties`` capability.
+
+      Note: The catalog capability is a newer version of the ``properties`` capability. Singer taps which support field and stream selection logic should declare the ``properties`` or ``catalog`` capability, but not both.
+
+{% elif capability == 'discover' %}
+   .. card:: ``discover``
+
+      Declares that the plugin can be run with the ``--discover`` CLI argument, which generates a catalog.json file. This is used by Meltano in combination with the ``catalog`` or ``properties`` capability to customize the catalog and to apply selection logic.
+
+{% elif capability == 'properties' %}
+   .. card:: ``properties``
+
+      Declares that the plugin supports stream and property selection using the ``--properties`` CLI argument.
+
+      Note: The ``properties`` capability is an older version of the ``--catalog`` capability. Singer taps which support field and stream selection logic should declare the ``properties`` or ``catalog`` capability, but not both.
+
+{% elif capability == 'state' %}
+   .. card:: ``state``
+
+      Declares that the plugin is able to perform incremental processing using the ``--state`` CLI option.
+
+      Note: This capability must be declared in order to use incremental data replication.
+
+{% elif capability == 'stream-maps' %}
+   .. card:: ``stream-maps``
+
+      For Singer connectors, declares the ability to perform inline transformations or 'mappings' within the stream. For more details, please see the `Singer SDK Stream Maps <https://sdk.meltano.com/en/latest/stream_maps.html>`_ documentation.
+
+{% else %}
+   .. card:: ``{{ capability }}``
+
+
+{% endif %}
+{% endfor %}
+{% endmacro %}
+
+{% macro render_settings_card_carousel(docs) %}
+.. card-carousel:: 1
+
+{% for setting in docs.settings %}
+{% set title = (":octicon:`lock` " if setting.kind == 'password' else "") + (setting.label or setting.name) %}
+
+   .. card:: {{ title }}
+
+      .. grid:: auto
+
+         .. grid-item::
+
+            name: ``{{ setting.name }}``
+
+         .. grid-item::
+
+            env: ``{{ docs.name.replace("-", "_")|upper }}_{{ setting.name|upper }}``{% if setting.env %}, ``{{ setting.env }}``{% endif %}
+
+      .. grid:: 1
+
+         .. grid-item::
+
+            {% if setting.description %}
+            .. raw:: html
+
+               {% filter indent(width=15, first=True) %}
+               {{ md2html(setting.description) }}
+               {% endfilter %}
+            {% endif %}
+
+{% endfor %}
+{% endmacro %}

@@ -1,0 +1,35 @@
+version: 1
+default_environment: dev
+project_id: 4bb4e6b4-ae51-4282-a51c-9c8ef0bdf290
+environments:
+- name: dev
+  config:
+    plugins:
+      extractors:
+      - name: tap-github
+        config:
+          repository: meltano/dev
+- name: staging
+  config:
+    plugins:
+      extractors:
+      - name: tap-github
+        config:
+          repository: meltano/staging
+- name: prod
+  config:
+    plugins:
+      extractors:
+      - name: tap-github
+        config:
+          repository: meltano/prod
+plugins:
+  extractors:
+  - name: tap-github
+    variant: singer-io
+    pip_url: tap-github
+    # description: |
+    #   We use [GitHub](https://github.com) to manage all of our public and private repositories.
+    #   The important ones are:
+    #   - [meltano/meltano](https://github.com/meltano/meltano) where Meltano is made
+    #   - [meltano/hub](https://github.com/meltano/hub) where plugin definitions are kept

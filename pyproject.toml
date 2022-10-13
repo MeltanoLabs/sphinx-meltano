@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "sphinx-meltano"
+version = "0.1.0"
+description = ""
+authors = ["Ken Payne <ken@meltano.com>"]
+readme = "README.md"
+packages = [{ include = "sphinx_meltano", from = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.8,<3.11"
+Sphinx = "^4.0.0"
+meltano = "^2.7.1"
+tabulate = "^0.8.10"
+commonmark = "^0.9.1"
+PyYAML = "^6.0"
+pydantic = "^1.10.2"
+sphinx_design = "^0.3.0"
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^5.0.4"
+pydocstyle = "^6.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
